@@ -1,0 +1,50 @@
+.mark__title {
+  margin-bottom: 2rem;
+  font-size: 6rem;
+}
+
+.mark__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.mark__item:not(:last-child) {
+  margin-right: 4rem;
+}
+
+.mark__btn {
+  background-color: transparent;
+  color: #000;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 1rem 2rem;
+  font-size: 3rem;
+  text-align: center;
+  border-radius: 20px;
+  border: 2px solid #000;
+  font-weight: 500;
+}
+
+.mark__btn--five{
+  background-color: #ff3333;
+  color: #fff;
+}
+
+.mark__btn--four{
+  background-color: #19e619;
+}
+
+.mark__btn--three{
+  background-color: #cccc00;
+}
+
+
+.mark__btn:hover {
+  border: 2px solid #000080;
+  color: #000080;
+  opacity: 0.5;
+  transition: all .1s ease-in;
+}
