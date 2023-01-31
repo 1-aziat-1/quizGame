@@ -95,6 +95,9 @@ h1 {
   margin-top: -100vh;
 }
 
+.screen.down {
+  margin-top: 100vh;
+}
 
 
 .hide {
@@ -103,5 +106,9 @@ h1 {
 
 .primary {
   color: #16d9e3;
+}
+
+button:hover {
+  background-color: #16d9e3;
 }
 

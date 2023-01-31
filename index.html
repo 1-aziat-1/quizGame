@@ -8,12 +8,12 @@
     <title>Тестирование</title>
   </head>
   <body>
-    <div class="screen">
+    <div class="screen ">
       <h1>Итоговый тест</h1>
       <a href="#" class="screen__start" id="start">Начать тест</a>
     </div>
 
-    <div class="screen mark">
+    <div class="screen mark ">
       <h1 class="mark__title">Выберите оценку</h1>
       <ul class="mark__list" id="mark__list">
         <li class="mark__item">
@@ -36,26 +36,35 @@
 
     <div class="screen question">
       <div class="question__container">
-        <ul class="question__list">
-          <li class="question__item">
-            <p class="question__item-text">1</p>
-          </li>
-          <li class="question__item">
-            <p class="question__item-text">2</p>
-          </li>
-          <li class="question__item">
-            <p class="question__item-text">3</p>
-          </li>
-          <li class="question__item">
-            <p class="question__item-text">4</p>
-          </li>
-          <li class="question__item">
-            <p class="question__item-text">5</p>
-          </li>
-        </ul>
-        <button class="question__btn start">Начать</button>
-        <!-- <button class="question__btn change">Поменять оценку</button>
-        <button class="question__btn restart">Обновить вопросы</button> -->
+        <div class="question__wrapper">
+          <div class="question__btn-wrapper">
+            <button class="question__btn start">Начать</button>
+            <button class="question__btn change">Поменять оценку</button>
+            <button class="question__btn restart">Обновить вопросы</button>
+          </div>
+          <ul class="question__list">
+            <li class="question__item">
+              <p class="question__item-point">0</p>
+              <p class="question__item-text ">1</p>
+            </li>
+            <li class="question__item">
+              <p class="question__item-point">0</p>
+              <p class="question__item-text ">2</p>
+            </li>
+            <li class="question__item">
+              <p class="question__item-point">0</p>
+              <p class="question__item-text ">3</p>
+            </li>
+            <li class="question__item">
+              <p class="question__item-point">0</p>
+              <p class="question__item-text ">4</p>
+            </li>
+          </ul>
+          <div class="question__result">
+            <p class="question__result-point">0</p>
+            <button class="question__result-mark">оценка</button>
+          </div>
+        </div>
       </div>
       <div class="modal">
         <div class="modal__container">
@@ -66,9 +75,14 @@
           <div class="modal__answer">
             <button class="modal__answer-btn">Ответ</button>
             <div class="modal__answer-inner">
-              <p class="modal__answer-text">
-                
-              </p>
+              <p class="modal__answer-text"></p>
+            </div>
+          </div>
+          <div class="modal__mark">
+            <div class="modal__mark-list">
+              <button class="modal__mark-item green" data-point="5">Полный ответ</button>
+              <button class="modal__mark-item yellow" data-point="3">Неполный</button>
+              <button class="modal__mark-item red" data-point="0">Неверный</button>
             </div>
           </div>
           <span class="modal__close"></span>

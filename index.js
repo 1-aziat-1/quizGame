@@ -160,30 +160,56 @@ const data = {
 };
 
 
-const startBtn = document.querySelector('#start');
+const startProgramm = document.querySelector('#start');
 const screens = document.querySelectorAll('.screen');
-const questionItem = document.querySelectorAll('.question__item');
+const questionItemMark = document.querySelectorAll('.question__item-text');
 const modal = document.querySelector('.modal');
+const markBtns = document.querySelectorAll('.mark__btn');
+const questionBtns = document.querySelectorAll('.question__btn');
+const questionPoint = document.querySelectorAll('.question__item-point');
 const modalQuestionText = document.querySelector('.modal__question-text');
 const answerText = document.querySelector('.modal__answer-text');
 const answerBtn = document.querySelector('.modal__answer-btn');
-const markBtns = document.querySelectorAll('.mark__btn');
-const questionBtns = document.querySelectorAll('.question__btn');
+const modalBtnPoint = document.querySelectorAll('.modal__mark-item');
+const btnStart = document.querySelector('.start');
+const btnChange = document.querySelector('.change');
+const btnRestart = document.querySelector('.restart');
 
 
+let numberQuestionItem = '';
 let numberArr = [];
 let dataMark = '';
 
+// правила оценки
+
+const arrPoint = {
+  dataFive : {
+    "5" : 5,
+    "3" : 2.5,
+    "0" : 0,
+  },
+  dataFour : {
+    "5" : 4,
+    "3" : 2,
+    "0" : 0,
+  },
+  dataThree : {
+    "5" : 3,
+    "3" : 1.5,
+    "0" : 0,
+  },
+};
+
+let resultPoint = 0;
+
 // создание массива чисел
-
-
 
 function getRandomInRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 const arrGeneretic = (data) => {
-  for (let i = 0; i < 5; ) {
+  for (let i = 0; i < 4; ) {
     let chislo = getRandomInRange(0, data.length-1);
     if (!numberArr.includes(chislo)) {
       numberArr.push(chislo);
@@ -193,12 +219,43 @@ const arrGeneretic = (data) => {
 };
 
 
-////////////////////////////////////////
+// запуск программы (страница 1 кнопка старт)
 
-startBtn.addEventListener('click', (event) => {
+startProgramm.addEventListener('click', (event) => {
   event.preventDefault();
   screens[0].classList.add('up');
 });
+
+
+// задаем цвет выбора вопроса (определяем оценку)
+
+markBtns.forEach(item => {
+  item.addEventListener('click', () => {
+    mark = item.getAttribute('data-mark');
+    dataMark = mark;
+    screens[1].classList.add('up');
+    questionItemMark.forEach(item => {
+      item.classList.add(dataMark);
+    });
+  });
+});
+
+
+// задаем вопрос и ответ 
+
+questionItemMark.forEach(item => {
+  item.addEventListener('click', () => {
+    if (numberArr.length > 0){
+      modal.classList.add('modal--active');
+      numberQuestionItem = +(item.textContent) - 1;
+      let number = numberArr[numberQuestionItem];
+      modalQuestionText.innerHTML = data[dataMark][number].question;
+      answerText.innerHTML = data[dataMark][number].answer;
+    }
+  });
+});
+
+// раскрытие модального окна
 
 modal.addEventListener('click', (event) => {
   let target = event.target;
@@ -208,50 +265,57 @@ modal.addEventListener('click', (event) => {
   }
 });
 
-markBtns.forEach(item => {
-  item.addEventListener('click', () => {
-    mark = item.getAttribute('data-mark');
-    dataMark = mark;
-    screens[1].classList.add('up');
-    questionItem.forEach(item => {
-      item.classList.add(dataMark);
-    });
-  });
-});
 
-questionItem.forEach(item => {
-  item.addEventListener('click', () => {
-    if (numberArr.length > 0) {
-      let numberItem = +(item.children[0].textContent) - 1;
-      modal.classList.add('modal--active');
-      let number = numberArr[numberItem];
-      modalQuestionText.innerHTML = data[dataMark][number].question;
-      answerText.innerHTML = data[dataMark][number].answer;
-    }
-  });
-});
+// выставление оценки (кнопк в модальном окне)
 
-questionBtns.forEach(item => {
+modalBtnPoint.forEach(item => {
   item.addEventListener('click', () => {
-    if(item.classList.contains('start')) {
-      item.disabled = 'true';
-      arrGeneretic(data[dataMark]);
-    }
-    console.log(numberArr);
-    item.classList.add('question__btn--active');
+    point = item.getAttribute('data-point');
+    questionPoint[numberQuestionItem].classList.add('question__item-point--active');
+    questionPoint[numberQuestionItem].textContent = arrPoint[dataMark][point];
+    modal.classList.remove('modal--active');
   });
 });
 
 
-
+// открытие ответа
 
 answerBtn.addEventListener('click', () => {
   answerText.style.opacity = '1.0';
 });
 
 
-// const start = () => {
-//   arrGeneretic();
-// };
+// Запуск приложения по кнопкам
 
-// start();
+btnStart.addEventListener('click', () => {
+  btnStart.disabled = 'true';
+  btnStart.classList.add('question__btn--active');
+  arrGeneretic(data[dataMark]);
+  console.log(numberArr);
+});
+
+btnChange.addEventListener('click', () => {
+  numberArr = [];
+  btnStart.disabled = '';
+  btnStart.classList.remove('question__btn--active');
+  screens[1].classList.remove('up');
+  questionItemMark.forEach(item => {
+    item.classList.remove(dataMark);
+  });
+  questionPoint.forEach(item => {
+    item.classList.remove('question__item-point--active');
+    item.textContent = 0;
+  });
+});
+
+btnRestart.addEventListener('click', () => {
+  numberArr = [];
+  btnStart.disabled = '';
+  btnStart.classList.remove('question__btn--active');
+  questionPoint.forEach(item => {
+    item.classList.remove('question__item-point--active');
+    item.textContent = 0;
+  });
+});
+
+

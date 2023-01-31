@@ -1,23 +1,31 @@
 .modal {
   position: absolute;
   top: 50%;
-  left: -100%;
+  left: 50%;
+  z-index: -1;
+  opacity: 0;
   transform: translate(-50%, -50%);
-  transition: left .3s ease-in;
-  width: 40rem;
-  height: 30rem;
+  transition: opacity .3s ease-in;
+  width: 50%;
+  height: 50%;
   border-radius: 50px;
   background-color: #fff;
   color: #000;
 }
 
 .modal--active {
-  left: 50%;
+  z-index: 10;
+  opacity: 1;
 }
 
 .modal__container {
+  width: 100%;
+  height: 100%;
   position: relative;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 30px;
   padding: 50px 20px;
 }
 
@@ -59,7 +67,11 @@
 }
 
 .modal__question {
-  margin-bottom: 40px;
+  max-height: 30%;
+}
+
+.modal__answer {
+  max-height: 60%;
 }
 
 .modal__question-title {
@@ -69,12 +81,25 @@
   line-height: 42px;
 }
 
+.modal__question-text {
+  max-height: 100%;
+}
+
+.modal__answer-inner {
+  max-height: 100%;
+  overflow: auto;
+}
+
+.modal__answer-text {
+  max-height: 100%;
+}
+
 .modal__answer-btn {
   width: 120px;
   font-weight: 700;
   font-size: 30px;
   line-height: 42px;
-  padding: 15px;
+  padding: 15px 15px 8px 15px;
   text-align: center;
   border: 2px solid red;
   background: inherit;
@@ -82,11 +107,49 @@
 
 .modal__question-text,
 .modal__answer-text {
-  max-width: 100%;
-  font-size: 24px;
-  line-height: 36px;
+  font-size: 20px;
+  line-height: 28px;
+  overflow: auto;
+  text-align: center;
+  padding: 5px 0;
 }
 
 .modal__answer-text {
   opacity: 0;
+}
+
+.modal__mark {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal__mark-list {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.modal__mark-item {
+  max-width: 200px;
+  padding: 0.7rem 0.5rem 0.5rem 0.5rem;
+  background-color: red;
+  font-size: 20px;
+  line-height: 30px;
+  border-radius: 10px;
+  border: 1px solid #000;
+}
+
+.green {
+  background-color: #99ff99;
+}
+
+.yellow {
+  background-color: #ffff7a;
+}
+
+.red {
+  background-color: #ff9e81;
 }
