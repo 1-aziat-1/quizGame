@@ -331,7 +331,7 @@ btnChange.addEventListener('click', () => {
   });
   resultPoint = 0;
   questionResultPoint.textContent = 0;
-  questionResultMark.textContent = 0;
+  questionResultMark.textContent = "оценка";
 });
 
 btnRestart.addEventListener('click', () => {
@@ -344,7 +344,7 @@ btnRestart.addEventListener('click', () => {
   });
   resultPoint = 0;
   questionResultPoint.textContent = 0;
-  questionResultMark.textContent = 0;
+  questionResultMark.textContent = "оценка";
 });
 
 
