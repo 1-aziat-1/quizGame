@@ -261,11 +261,12 @@ questionItemMark.forEach(item => {
 
 modal.addEventListener('click', (event) => {
   let target = event.target;
-  if (target.classList.contains('modal__close')){
+  if (target.classList.contains('modal__close') || target.classList.contains('modal__mark-item')){
     modal.classList.remove('modal--active');
     answerText.style.opacity = '0';
   }
 });
+
 
 
 // выставление оценки (кнопк в модальном окне) и выставление point
@@ -278,23 +279,35 @@ modalBtnPoint.forEach(item => {
     resultPoint += arrPoint[dataMark][point];
     questionResultPoint.textContent =  resultPoint;
     modal.classList.remove('modal--active');
+    questionItemMark[numberQuestionItem].disabled = true;
+    questionItemMark[numberQuestionItem].classList.add('question__item--disabled');
   });
 });
 
 // выставление итоговой оценки 
 
 questionResultMark.addEventListener('click', () => {
-  if (resultPoint < 12) {
-    questionResultMark.textContent = '2';
-  }
-  if (resultPoint >=12 && resultPoint < 16) {
-    questionResultMark.textContent = '3';
-  }
-  if (resultPoint >=16 && resultPoint < 20) {
-    questionResultMark.textContent = '3';
-  }
-  if (resultPoint >= 20) {
-    questionResultMark.textContent = '5';
+  let checkBool = false;
+  questionPoint.forEach(item => {
+    if (item.textContent === '') {
+      checkBool = false;
+      return;
+    }
+    checkBool = true;
+  });
+  if(checkBool) {
+    if (resultPoint < 12) {
+      questionResultMark.textContent = '2';
+    }
+    if (resultPoint >=12 && resultPoint < 16) {
+      questionResultMark.textContent = '3';
+    }
+    if (resultPoint >=16 && resultPoint < 20) {
+      questionResultMark.textContent = '3';
+    }
+    if (resultPoint >= 20) {
+      questionResultMark.textContent = '5';
+    }
   }
 });
 
@@ -314,7 +327,6 @@ btnStart.addEventListener('click', () => {
   btnStart.disabled = 'true';
   btnStart.classList.add('question__btn--active');
   arrGeneretic(data[dataMark]);
-  console.log(numberArr);
 });
 
 btnChange.addEventListener('click', () => {
@@ -327,11 +339,15 @@ btnChange.addEventListener('click', () => {
   });
   questionPoint.forEach(item => {
     item.classList.remove('question__item-point--active');
-    item.textContent = 0;
+    item.textContent = '';
   });
   resultPoint = 0;
-  questionResultPoint.textContent = 0;
+  questionResultPoint.textContent = '';
   questionResultMark.textContent = "оценка";
+  questionItemMark.forEach(item => {
+    item.disabled = '';
+    item.classList.remove('question__item--disabled');
+  });
 });
 
 btnRestart.addEventListener('click', () => {
@@ -340,11 +356,16 @@ btnRestart.addEventListener('click', () => {
   btnStart.classList.remove('question__btn--active');
   questionPoint.forEach(item => {
     item.classList.remove('question__item-point--active');
-    item.textContent = 0;
+    item.textContent = '';
   });
   resultPoint = 0;
-  questionResultPoint.textContent = 0;
+  questionResultPoint.textContent = '';
   questionResultMark.textContent = "оценка";
+  questionItemMark.forEach(item => {
+    item.disabled = '';
+    item.classList.remove('question__item--disabled');
+  });
+  
 });
 
 

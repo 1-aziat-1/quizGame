@@ -127,7 +127,16 @@ div.question {
   align-items: center;
   justify-content: center;
   color: #000;
-  background-color: #fff;
+  background-color: #F7819F;
   border-radius: 10px;
   padding-top: 5px;
 } 
+
+.question__item--disabled {
+  background-color: #faf0e6;
+  color: #000;
+}
+
+.question__item--disabled:hover {
+  background-color: #faf0e6;
+}
