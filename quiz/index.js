@@ -288,13 +288,13 @@ modalBtnPoint.forEach(item => {
 
 questionResultMark.addEventListener('click', () => {
   let checkBool = false;
-  for (item of questionPoint){
+  questionPoint.forEach(item => {
     if (item.textContent === '') {
       checkBool = false;
-      break;
+      return;
     }
     checkBool = true;
-  }
+  });
   if(checkBool) {
     if (resultPoint < 12) {
       questionResultMark.textContent = '2';
