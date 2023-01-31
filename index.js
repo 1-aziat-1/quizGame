@@ -167,6 +167,8 @@ const modal = document.querySelector('.modal');
 const markBtns = document.querySelectorAll('.mark__btn');
 const questionBtns = document.querySelectorAll('.question__btn');
 const questionPoint = document.querySelectorAll('.question__item-point');
+const questionResultPoint = document.querySelector('.question__result-point');
+const questionResultMark = document.querySelector('.question__result-mark');
 const modalQuestionText = document.querySelector('.modal__question-text');
 const answerText = document.querySelector('.modal__answer-text');
 const answerBtn = document.querySelector('.modal__answer-btn');
@@ -266,16 +268,37 @@ modal.addEventListener('click', (event) => {
 });
 
 
-// выставление оценки (кнопк в модальном окне)
+// выставление оценки (кнопк в модальном окне) и выставление point
 
 modalBtnPoint.forEach(item => {
   item.addEventListener('click', () => {
     point = item.getAttribute('data-point');
     questionPoint[numberQuestionItem].classList.add('question__item-point--active');
     questionPoint[numberQuestionItem].textContent = arrPoint[dataMark][point];
+    resultPoint += arrPoint[dataMark][point];
+    questionResultPoint.textContent =  resultPoint;
     modal.classList.remove('modal--active');
   });
 });
+
+// выставление итоговой оценки 
+
+questionResultMark.addEventListener('click', () => {
+  if (resultPoint < 12) {
+    questionResultMark.textContent = '2';
+  }
+  if (resultPoint >=12 && resultPoint < 16) {
+    questionResultMark.textContent = '3';
+  }
+  if (resultPoint >=16 && resultPoint < 20) {
+    questionResultMark.textContent = '3';
+  }
+  if (resultPoint >= 20) {
+    questionResultMark.textContent = '5';
+  }
+});
+
+
 
 
 // открытие ответа
@@ -306,6 +329,9 @@ btnChange.addEventListener('click', () => {
     item.classList.remove('question__item-point--active');
     item.textContent = 0;
   });
+  resultPoint = 0;
+  questionResultPoint.textContent = 0;
+  questionResultMark.textContent = 0;
 });
 
 btnRestart.addEventListener('click', () => {
@@ -316,6 +342,9 @@ btnRestart.addEventListener('click', () => {
     item.classList.remove('question__item-point--active');
     item.textContent = 0;
   });
+  resultPoint = 0;
+  questionResultPoint.textContent = 0;
+  questionResultMark.textContent = 0;
 });
 
 
