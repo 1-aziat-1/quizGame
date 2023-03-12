@@ -175,16 +175,23 @@ const answerBtn = document.querySelector('.modal__answer-btn');
 const modalBtnPoint = document.querySelectorAll('.modal__mark-item');
 const btnStart = document.querySelector('.start');
 const btnChange = document.querySelector('.change');
-const btnRestart = document.querySelector('.restart');
-
+const btnGame = document.querySelector('.warning');
+const modalGame = document.querySelector('.modal__game');
+const modalGameQuestion = document.querySelector('.modal__game .modal__question-text');
+const modalGameAnswer = document.querySelector('.modal__game .modal__answer-text');
+const modalGameBtn = document.querySelectorAll('.modal__game-mark-item');
+const timerMin = document.querySelector('.timer__minutes');
+const timerSec = document.querySelector('.timer__seconds');
 
 let numberQuestionItem = '';
 let numberArr = [];
+let localDataMark = '';
 let dataMark = '';
+let setintervalID = '';
 
 // правила оценки
 
-const arrPoint = {
+const arrMark = {
   dataFive : {
     "5" : 5,
     "3" : 2.5,
@@ -202,6 +209,12 @@ const arrPoint = {
   },
 };
 
+const arrPoint = {
+  dataFive : ['dataFive','dataFive','dataFour','dataFour','dataThree','dataFive'],
+  dataFour : ['dataFour','dataFour','dataThree','dataThree','dataThree','dataFour'],
+  dataThree : ['dataThree','dataThree','dataThree','dataThree','dataThree','dataThree'],
+};
+
 let resultPoint = 0;
 
 // создание массива чисел
@@ -210,14 +223,40 @@ function getRandomInRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const arrGeneretic = (data) => {
-  for (let i = 0; i < 4; ) {
-    let chislo = getRandomInRange(0, data.length-1);
+const arrGeneretic = (mark) => {
+  for (let i = 0; i < 6; ) {
+    let chislo = getRandomInRange(0, data[arrPoint[mark][i]].length-1);
     if (!numberArr.includes(chislo)) {
       numberArr.push(chislo);
       i++;
     }
   }
+};
+
+//таймер 
+
+const timer = (minutes, seconds, elemMin, elemSec) => {
+  const intervalId = setInterval(() => {
+    setintervalID = intervalId;
+    if(seconds === 0) {
+      elemMin.textContent = `0`;
+      elemSec.textContent = `00`;
+      clearInterval(intervalId);
+      questionItemMark.forEach(item => item.style.display = 'none');
+      return ;
+    }
+    if(seconds%60===0){
+      minutes = minutes - 1;
+      elemMin.textContent = minutes;
+    }
+    seconds = seconds - 1;
+    if (seconds%60<10) {
+      elemSec.textContent = `0${seconds%60}`;
+    }else {
+      elemSec.textContent = seconds%60;
+    }
+  },1000);
+
 };
 
 
@@ -233,12 +272,16 @@ startProgramm.addEventListener('click', (event) => {
 
 markBtns.forEach(item => {
   item.addEventListener('click', () => {
-    mark = item.getAttribute('data-mark');
-    dataMark = mark;
+    dataMark = item.getAttribute('data-mark');
+    markArr = arrPoint[dataMark];
     screens[1].classList.add('up');
-    questionItemMark.forEach(item => {
-      item.classList.add(dataMark);
+    questionItemMark.forEach((markBtn, index) => {
+        markBtn.classList.add(markArr[index]);
     });
+    btnGame.disabled = 'true';
+    if (item.classList.contains('mark__btn--three')){
+      btnGame.style.display = 'none';
+    }
   });
 });
 
@@ -251,8 +294,9 @@ questionItemMark.forEach(item => {
       modal.classList.add('modal--active');
       numberQuestionItem = +(item.textContent) - 1;
       let number = numberArr[numberQuestionItem];
-      modalQuestionText.innerHTML = data[dataMark][number].question;
-      answerText.innerHTML = data[dataMark][number].answer;
+      localDataMark = item.classList[1];
+      modalQuestionText.innerHTML = data[localDataMark][number].question;
+      answerText.innerHTML = data[localDataMark][number].answer;
     }
   });
 });
@@ -261,7 +305,7 @@ questionItemMark.forEach(item => {
 
 modal.addEventListener('click', (event) => {
   let target = event.target;
-  if (target.classList.contains('modal__close') || target.classList.contains('modal__mark-item')){
+  if (target.classList.contains('modal__close')){
     modal.classList.remove('modal--active');
     answerText.style.opacity = '0';
   }
@@ -275,27 +319,50 @@ modalBtnPoint.forEach(item => {
   item.addEventListener('click', () => {
     point = item.getAttribute('data-point');
     questionPoint[numberQuestionItem].classList.add('question__item-point--active');
-    questionPoint[numberQuestionItem].textContent = arrPoint[dataMark][point];
-    resultPoint += arrPoint[dataMark][point];
+    questionPoint[numberQuestionItem].textContent = arrMark[localDataMark][point];
+    resultPoint += arrMark[localDataMark][point];
     questionResultPoint.textContent =  resultPoint;
     modal.classList.remove('modal--active');
     questionItemMark[numberQuestionItem].disabled = true;
     questionItemMark[numberQuestionItem].classList.add('question__item--disabled');
+    answerText.style.opacity = '0';
   });
 });
 
+btnGame.addEventListener('click', () => {
+  modalGame.classList.add('modal--active');
+  modalGameQuestion.textContent = data[dataMark][numberArr[5]].question;
+  modalGameAnswer.textContent = data[dataMark][numberArr[5]].answer;
+});
+
+modalGame.addEventListener('click', (event) => {
+  const target = event.target;
+  if (target.classList.contains('modal__answer-btn')) {
+    modalGameAnswer.style.opacity = '1.0';
+  }
+  if (target.classList.contains('modal__close')){
+    modalGame.classList.remove('modal--active');
+    modalGameAnswer.style.opacity = '0';
+  }
+})
+
+modalGameBtn.forEach(item => {
+  item.addEventListener('click', () => {
+    if (item.textContent === 'Правильный') {
+      resultPoint += 5;
+      questionResultPoint.textContent =  resultPoint;
+    } else {
+      resultPoint += -5;
+      questionResultPoint.textContent =  resultPoint;
+    }
+    modalGame.classList.remove('modal--active');
+    btnGame.disabled = true;
+  })
+});
 // выставление итоговой оценки 
 
 questionResultMark.addEventListener('click', () => {
-  let checkBool = false;
-  for (item of questionPoint){
-    if (item.textContent === '') {
-      checkBool = false;
-      break;
-    }
-    checkBool = true;
-  }
-  if(checkBool) {
+  if(questionResultPoint.textContent !== ''){
     if (resultPoint < 12) {
       questionResultMark.textContent = '2';
     }
@@ -303,7 +370,7 @@ questionResultMark.addEventListener('click', () => {
       questionResultMark.textContent = '3';
     }
     if (resultPoint >=16 && resultPoint < 20) {
-      questionResultMark.textContent = '3';
+      questionResultMark.textContent = '4';
     }
     if (resultPoint >= 20) {
       questionResultMark.textContent = '5';
@@ -321,12 +388,17 @@ answerBtn.addEventListener('click', () => {
 });
 
 
+
 // Запуск приложения по кнопкам
 
 btnStart.addEventListener('click', () => {
   btnStart.disabled = 'true';
   btnStart.classList.add('question__btn--active');
-  arrGeneretic(data[dataMark]);
+  arrGeneretic(dataMark);
+  btnGame.disabled = '';
+  const seconds = 180;
+  const minutes = Math.floor(seconds/60);
+  timer(minutes,seconds,timerMin,timerSec);
 });
 
 btnChange.addEventListener('click', () => {
@@ -335,7 +407,7 @@ btnChange.addEventListener('click', () => {
   btnStart.classList.remove('question__btn--active');
   screens[1].classList.remove('up');
   questionItemMark.forEach(item => {
-    item.classList.remove(dataMark);
+    item.className = 'question__item-text';
   });
   questionPoint.forEach(item => {
     item.classList.remove('question__item-point--active');
@@ -348,24 +420,29 @@ btnChange.addEventListener('click', () => {
     item.disabled = '';
     item.classList.remove('question__item--disabled');
   });
+  questionItemMark.forEach(item => item.style.display = 'block');
+  timerMin.textContent = '03';
+  timerSec.textContent = '00';
+  clearInterval(setintervalID);
+  btnGame.disabled = '';
+  btnGame.style.display = 'block';
 });
 
-btnRestart.addEventListener('click', () => {
-  numberArr = [];
-  btnStart.disabled = '';
-  btnStart.classList.remove('question__btn--active');
-  questionPoint.forEach(item => {
-    item.classList.remove('question__item-point--active');
-    item.textContent = '';
-  });
-  resultPoint = 0;
-  questionResultPoint.textContent = '';
-  questionResultMark.textContent = "оценка";
-  questionItemMark.forEach(item => {
-    item.disabled = '';
-    item.classList.remove('question__item--disabled');
-  });
-  
-});
+// btnRestart.addEventListener('click', () => {
+//   numberArr = [];
+//   btnStart.disabled = '';
+//   btnStart.classList.remove('question__btn--active');
+//   questionPoint.forEach(item => {
+//     item.classList.remove('question__item-point--active');
+//     item.textContent = '';
+//   });
+//   resultPoint = 0;
+//   questionResultPoint.textContent = '';
+//   questionResultMark.textContent = "оценка";
+//   questionItemMark.forEach(item => {
+//     item.disabled = '';
+//     item.classList.remove('question__item--disabled');
+//   });
+// });
 
 

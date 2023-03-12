@@ -142,6 +142,16 @@
   border: 1px solid #000;
 }
 
+.modal__game-mark-item {
+  max-width: 200px;
+  padding: 0.7rem 0.5rem 0.5rem 0.5rem;
+  background-color: red;
+  font-size: 20px;
+  line-height: 30px;
+  border-radius: 10px;
+  border: 1px solid #000;
+}
+
 .green {
   background-color: #99ff99;
 }

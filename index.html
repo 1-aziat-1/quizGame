@@ -40,26 +40,39 @@
           <div class="question__btn-wrapper">
             <button class="question__btn start">Начать</button>
             <button class="question__btn change">Поменять оценку</button>
-            <button class="question__btn restart">Обновить вопросы</button>
+            <button class="question__btn warning" disabled>Супер игра</button>
           </div>
-          <ul class="question__list">
-            <li class="question__item">
-              <p class="question__item-point"></p>
-              <button class="question__item-text ">1</button>
-            </li>
-            <li class="question__item">
-              <p class="question__item-point"></p>
-              <button class="question__item-text ">2</button>
-            </li>
-            <li class="question__item">
-              <p class="question__item-point"></p>
-              <button class="question__item-text ">3</button>
-            </li>
-            <li class="question__item">
-              <p class="question__item-point"></p>
-              <button class="question__item-text ">4</button>
-            </li>
-          </ul>
+          <div class="question__content">
+            <ul class="question__list">
+              <li class="question__item">
+                <p class="question__item-point"></p>
+                <button class="question__item-text ">1</button>
+              </li>
+              <li class="question__item">
+                <p class="question__item-point"></p>
+                <button class="question__item-text ">2</button>
+              </li>
+              <li class="question__item">
+                <p class="question__item-point"></p>
+                <button class="question__item-text ">3</button>
+              </li>
+              <li class="question__item">
+                <p class="question__item-point"></p>
+                <button class="question__item-text ">4</button>
+              </li>
+              <li class="question__item">
+                <p class="question__item-point"></p>
+                <button class="question__item-text ">5</button>
+              </li>
+            </ul>
+            <div class="question__timer timer">
+              <div class="timer__wrapper">
+                <p class="timer__text timer__minutes">3</p>
+                <span class="timer__text">:</span>
+                <p class="timer__text timer__seconds">00</p>
+              </div>
+            </div>
+          </div>
           <div class="question__result">
             <p class="question__result-point"></p>
             <button class="question__result-mark">оценка</button>
@@ -83,6 +96,27 @@
               <button class="modal__mark-item green" data-point="5">Полный ответ</button>
               <button class="modal__mark-item yellow" data-point="3">Неполный</button>
               <button class="modal__mark-item red" data-point="0">Неверный</button>
+            </div>
+          </div>
+          <span class="modal__close"></span>
+        </div>
+      </div>
+      <div class="modal modal__game">
+        <div class="modal__container">
+          <div class="modal__question">
+            <p class="modal__question-title">Вопрос:</p>
+            <p class="modal__question-text"></p>
+          </div>
+          <div class="modal__answer">
+            <button class="modal__answer-btn ">Ответ</button>
+            <div class="modal__answer-inner">
+              <p class="modal__answer-text"></p>
+            </div>
+          </div>
+          <div class="modal__mark">
+            <div class="modal__mark-list">
+              <button class="modal__game-mark-item green">Правильный</button>
+              <button class="modal__game-mark-item red">Не правильный</button>
             </div>
           </div>
           <span class="modal__close"></span>
