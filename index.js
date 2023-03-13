@@ -349,10 +349,10 @@ modalGame.addEventListener('click', (event) => {
 modalGameBtn.forEach(item => {
   item.addEventListener('click', () => {
     if (item.textContent === 'Правильный') {
-      resultPoint += 5;
+      resultPoint += arrMark[dataMark]['5'];
       questionResultPoint.textContent =  resultPoint;
     } else {
-      resultPoint += -5;
+      resultPoint += -arrMark[dataMark]['5'];
       questionResultPoint.textContent =  resultPoint;
     }
     modalGame.classList.remove('modal--active');
@@ -426,6 +426,7 @@ btnChange.addEventListener('click', () => {
   clearInterval(setintervalID);
   btnGame.disabled = '';
   btnGame.style.display = 'block';
+  modalGameAnswer.style.opacity = '0';
 });
 
 // btnRestart.addEventListener('click', () => {

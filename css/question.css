@@ -85,7 +85,7 @@ div.question {
   top: -5px;
   width: 32px;
   height: 32px;
-  background-image: url('/img/timer.png');
+  background-image: url('../img/timer.png');
   background-repeat: no-repeat;
 }
 
