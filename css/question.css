@@ -77,6 +77,17 @@ div.question {
   margin: 0 auto;
 }
 
+.timer__modal {
+  width: 150px;
+  margin: 0;
+}
+
+.timer__modal .timer__text {
+  font-size: 28px;
+  line-height: 21px;
+  color: #ff3333;
+}
+
 .timer::after,
 .timer::before {
   content: '';

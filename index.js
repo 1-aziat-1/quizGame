@@ -178,10 +178,13 @@ const btnChange = document.querySelector('.change');
 const btnGame = document.querySelector('.warning');
 const modalGame = document.querySelector('.modal__game');
 const modalGameQuestion = document.querySelector('.modal__game .modal__question-text');
+const modalMark = document.querySelector('.modal__game .modal__mark');
 const modalGameAnswer = document.querySelector('.modal__game .modal__answer-text');
 const modalGameBtn = document.querySelectorAll('.modal__game-mark-item');
 const timerMin = document.querySelector('.timer__minutes');
 const timerSec = document.querySelector('.timer__seconds');
+const timerModMin = document.querySelector('.timer__modminutes');
+const timerModSec = document.querySelector('.timer__modseconds');
 
 let numberQuestionItem = '';
 let numberArr = [];
@@ -243,6 +246,9 @@ const timer = (minutes, seconds, elemMin, elemSec) => {
       elemSec.textContent = `00`;
       clearInterval(intervalId);
       questionItemMark.forEach(item => item.style.display = 'none');
+      if (modalGame.classList.contains('modal--active')) {
+        modalMark.style.display = 'none';
+      }
       return ;
     }
     if(seconds%60===0){
@@ -330,6 +336,11 @@ modalBtnPoint.forEach(item => {
 });
 
 btnGame.addEventListener('click', () => {
+  clearInterval(setintervalID);
+  questionItemMark.forEach(item => item.style.display = 'none');
+  const seconds = 60;
+  const minutes = 1;
+  timer(minutes,seconds,timerModMin,timerModSec);
   modalGame.classList.add('modal--active');
   modalGameQuestion.textContent = data[dataMark][numberArr[5]].question;
   modalGameAnswer.textContent = data[dataMark][numberArr[5]].answer;
@@ -339,10 +350,13 @@ modalGame.addEventListener('click', (event) => {
   const target = event.target;
   if (target.classList.contains('modal__answer-btn')) {
     modalGameAnswer.style.opacity = '1.0';
+    modalMark.style.display = 'none';
   }
   if (target.classList.contains('modal__close')){
     modalGame.classList.remove('modal--active');
     modalGameAnswer.style.opacity = '0';
+    clearInterval(setintervalID);
+    btnGame.disabled = true;
   }
 })
 
@@ -355,6 +369,7 @@ modalGameBtn.forEach(item => {
       resultPoint += -arrMark[dataMark]['5'];
       questionResultPoint.textContent =  resultPoint;
     }
+    clearInterval(setintervalID);
     modalGame.classList.remove('modal--active');
     btnGame.disabled = true;
   })
@@ -423,10 +438,13 @@ btnChange.addEventListener('click', () => {
   questionItemMark.forEach(item => item.style.display = 'block');
   timerMin.textContent = '03';
   timerSec.textContent = '00';
+  timerModMin.textContent = '01';
+  timerModSec.textContent = '00';
   clearInterval(setintervalID);
   btnGame.disabled = '';
   btnGame.style.display = 'block';
   modalGameAnswer.style.opacity = '0';
+  modalMark.style.display = 'flex';
 });
 
 // btnRestart.addEventListener('click', () => {
