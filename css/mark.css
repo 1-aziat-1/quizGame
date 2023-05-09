@@ -3,7 +3,7 @@
   font-size: 6rem;
 }
 
-.mark__list {
+.mark__btn-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -11,8 +11,8 @@
   padding: 0;
 }
 
-.mark__item:not(:last-child) {
-  margin-right: 4rem;
+.mark__btn:not(:last-child) {
+  margin-right: 2rem;
 }
 
 .mark__btn {
@@ -26,6 +26,25 @@
   border-radius: 20px;
   border: 2px solid #000;
   font-weight: 500;
+}
+
+.mark__btn--back {
+  width: 60px;
+  height: 68px;
+  border: 3px solid #000;
+  border-radius: 18px;
+  background: no-repeat center url('../img/btnBack.png');
+  align-self: center;
+  position: relative;
+}
+
+.mark__btn--back a {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .mark__btn--five{
@@ -43,7 +62,6 @@
 
 
 .mark__btn:hover {
-  border: 2px solid #000080;
   color: #000080;
   opacity: 0.5;
   transition: all .1s ease-in;

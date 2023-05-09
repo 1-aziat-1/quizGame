@@ -1,0 +1,26 @@
+.screen__btn-container {
+  display: flex;
+  gap: 3rem;
+}
+
+.screen__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10rem;
+  height: 8rem;
+  font-size: 2rem;
+  line-height: 1.1;
+  border-radius: 5rem;
+  font-weight: bold;
+  background-color: aqua;
+  color: #000;
+}
+
+.screen__start:hover {
+  color: #16d9e3;
+}
+
+.screen__btn:hover {
+  transform: scale(1.1);
+}

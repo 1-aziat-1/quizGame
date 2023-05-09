@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/normalize.css">
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/exam.css" />
+  <title>Экзамен</title>
+  <script defer src="../script/exam.js"></script>
+</head>
+<body>
+    <div class="screen mark">
+      <h1 class="mark__title">Выберите оценку</h1>
+      <div class="mark__btn-list">
+        <button class="mark__btn mark__btn--five" data-mark="dataFive">
+            Отлично
+          </button>
+          <button class="mark__btn mark__btn--four" data-mark="dataFour">
+            Хорошо
+          </button>
+          <button class="mark__btn mark__btn--three" data-mark="dataThree">
+            Удовлетворительно
+          </button>
+          <button class="mark__btn mark__btn--back" data-mark="back">
+            <a href="/"></a>
+          </button>
+      </div>
+    </div> 
+  
+    <div class="screen question">
+      <div class="question__container">
+        <div class="question__wrapper">
+          <div class="question__btn-wrapper">
+            <button class="question__btn start">Начать</button>
+            <button class="question__btn change">Поменять оценку</button>
+            <button class="question__btn warning" disabled>Супер игра</button>
+          </div>
+          <div class="question__content">
+            <ul class="question__list">
+              <li class="question__item">
+                <p class="question__item-point"></p>
+                <button class="question__item-text ">1</button>
+              </li>
+              <li class="question__item">
+                <p class="question__item-point"></p>
+                <button class="question__item-text ">2</button>
+              </li>
+              <li class="question__item">
+                <p class="question__item-point"></p>
+                <button class="question__item-text ">3</button>
+              </li>
+              <li class="question__item">
+                <p class="question__item-point"></p>
+                <button class="question__item-text ">4</button>
+              </li>
+              <li class="question__item">
+                <p class="question__item-point"></p>
+                <button class="question__item-text ">5</button>
+              </li>
+            </ul>
+            <div class="question__timer timer">
+              <div class="timer__wrapper">
+                <p class="timer__text timer__minutes">3</p>
+                <span class="timer__text">:</span>
+                <p class="timer__text timer__seconds">00</p>
+              </div>
+            </div>
+          </div>
+          <div class="question__result">
+            <p class="question__result-point"></p>
+            <button class="question__result-mark">оценка</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal modal__game">
+        <div class="modal__container">
+          <div class="modal__question">
+            <p class="modal__question-title">Вопрос:</p>
+            <p class="modal__question-text"></p>
+          </div>
+          <div class="modal__answer">
+            <button class="modal__answer-btn ">Ответ</button>
+            <div class="modal__answer-inner">
+              <p class="modal__answer-text"></p>
+            </div>
+          </div>
+          <div class="modal__mark">
+            <div class="timer timer__modal">
+              <div class="timer__wrapper">
+                <p class="timer__text timer__minutes timer__modminutes">1</p>
+                <span class="timer__text">:</span>
+                <p class="timer__text timer__seconds timer__modseconds">00</p>
+              </div>
+            </div>
+            <div class="modal__mark-list">
+              <button class="modal__game-mark-item green">Правильный</button>
+              <button class="modal__game-mark-item red">Не правильный</button>
+            </div>
+          </div>
+          <span class="modal__close"></span>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

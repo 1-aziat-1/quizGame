@@ -1,0 +1,119 @@
+.seminar__title {
+  font-size: 40px;
+  line-height: 46px;
+  margin-bottom: 10px;
+}
+
+.seminar__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.seminar__label {
+  display: block;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.seminar__label:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.seminar__label input:checked+span {
+  color: #ff0000;
+}
+
+.seminar__btn {
+  font-size: 25px;
+  line-height: 28px;
+  font-weight: 600;
+  padding: 30px 20px;
+  background-color: #ff0000;
+  border-radius: 10px;
+  color: #ffffff;
+}
+
+.seminar__btn-container {
+  display: flex;
+  align-items: center;
+}
+
+.seminar__btn-start {
+  margin-right: 40px;
+}
+
+.seminar__btn:disabled {
+  opacity: 0.6;
+}
+
+.seminar__question-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seminar__question-wrapper {
+  margin-right: 50px;
+}
+
+.seminar__question-lists {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seminar__question-lists>ul {
+  width: 500px;
+}
+
+.seminar__question-lists>ul>h4 {
+  font-size: 35px;
+  line-height: 42px;
+}
+
+.seminar__question-lists>ul>li {
+  width: 100%;
+}
+
+.seminar__question-list-one {
+  margin-right: 50px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.item span {
+  font-size: 20px;
+  line-height: 25px;
+}
+
+.item .title {
+  margin-bottom: 10px;
+}
+
+.item:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.seminar__question-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.seminar__question-wrapper .timer {
+  margin-bottom: 15px;
+}
+
+.seminar__question-wrapper button {
+  margin-bottom: 15px;
+}

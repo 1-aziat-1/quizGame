@@ -447,21 +447,3 @@ btnChange.addEventListener('click', () => {
   modalMark.style.display = 'flex';
 });
 
-// btnRestart.addEventListener('click', () => {
-//   numberArr = [];
-//   btnStart.disabled = '';
-//   btnStart.classList.remove('question__btn--active');
-//   questionPoint.forEach(item => {
-//     item.classList.remove('question__item-point--active');
-//     item.textContent = '';
-//   });
-//   resultPoint = 0;
-//   questionResultPoint.textContent = '';
-//   questionResultMark.textContent = "оценка";
-//   questionItemMark.forEach(item => {
-//     item.disabled = '';
-//     item.classList.remove('question__item--disabled');
-//   });
-// });
-
-

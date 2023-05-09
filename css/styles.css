@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css?family=Khula&display=swap");
 @import 'mark.css';
 @import 'question.css';
 @import 'modal.css';
+@import 'index.css';
 
 html {
   position: relative;
@@ -67,9 +67,6 @@ body {
   text-align: center;
 }
 
-a:hover {
-  color: #16d9e3;
-}
 
 .screen__start {
   font-size: 1.5rem;
@@ -77,7 +74,7 @@ a:hover {
 
 h1 {
   line-height: 1.4;
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 .screen {
