@@ -163,18 +163,22 @@ const screens = document.querySelectorAll('.screen');
 const btnStart = document.querySelector('.seminar__btn-start');
 const btnQuestion = document.querySelector('.seminar__btn-question');
 const btnBack = document.querySelector('.seminar__question-wrapper>.mark__btn');
-const inputsAll = document.querySelectorAll('.seminar__label>input');
 const oneText = document.querySelectorAll('.seminar__question-item-one>.text');
 const twoText = document.querySelectorAll('.seminar__question-item-two>.text');
 const timerModMin = document.querySelector('.timer__minutes');
 const timerModSec = document.querySelector('.timer__seconds');
-
+const form = document.querySelector('.seminar__form');
 
 let seminarNum = 0;
 let arrVar1 = [];
 let arrVar2 = [];
+let objCheck = {
+  dataFive: [],
+  dataFour: [],
+  dataThree: [],
+};
 
-const  arrMark = ['dataFive', 'dataFour', 'dataFour', 'dataThree', 'dataThree', 'dataThree'];
+const  arrMark = ['dataFive', 'dataFour', 'dataFour', 'dataThree', 'dataThree','dataFive', 'dataFour', 'dataFour', 'dataThree', 'dataThree'];
 
 const timer = (minutes, seconds, elemMin, elemSec) => {
   setintervalID = setInterval(() => {
@@ -209,14 +213,16 @@ function getRandomInRange(max) {
 
 const questNumbersGeneretics = (arrPush, arrCheck, num) => {
   for (let i = 0; i < 10;) {
-    let chislo = getRandomInRange(num*10 - 1);
-    if (!arrCheck.includes(chislo) && !arrPush.includes(chislo)) {
+    let chislo = getRandomInRange(num[arrMark[i]] - 1);
+    if (!objCheck[arrMark[i]].includes(chislo)) {
       if (i < 5) {
-        i++;
+        objCheck[arrMark[i]].push(chislo);
         arrPush.push(chislo);
-      } else {
         i++;
+      } else {
+        objCheck[arrMark[i]].push(chislo);
         arrCheck.push(chislo);
+        i++;
       }
     }
   }
@@ -238,7 +244,7 @@ const setAnswer = (arr, textItem) => {
   });
 };
 
-const startTest = (num = 0) => {
+const startTest = (num) => {
   questNumbersGeneretics(arrVar1, arrVar2, num);
   if (arrVar1 && arrVar2) {
     setQuestion(arrVar1,oneText);
@@ -258,32 +264,29 @@ btnQuestion.addEventListener('click', () => {
   }
 });
 
-btnStart.addEventListener('click', () => {
+//запуск программы
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
   screens[0].classList.add('up');
-  btnStart.disabled = true;
-  startTest(seminarNum);
-});
-
-inputsAll.forEach(item => {
-  item.addEventListener('click', () => {
-    btnStart.disabled = '';
-    seminarNum = item.value;
-  });
+  const data = new FormData(e.target);
+  const newData = Object.fromEntries(data);
+  startTest(newData);
 });
 
 btnBack.addEventListener('click', () => {
   screens[0].classList.remove('up');
   arrVar1 = [];
   arrVar2 = [];
+  objCheck = {
+    dataFive: [],
+    dataFour: [],
+    dataThree: [],
+  };
   seminarNum = 0;
   clearInterval(setintervalID);
   timerModMin.textContent = '5';
   timerModSec.textContent = '00';
-  inputsAll.forEach(item => {
-    item.checked = false;
-  });
 });
-
 
 
 

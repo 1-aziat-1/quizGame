@@ -144,42 +144,13 @@ const data = {
   ],
 };
 
-const screens = document.querySelectorAll('.screen');
-const questionItemMark = document.querySelectorAll('.question__item-text');
-// const overlay = document.querySelector('.overlay');
-// const modal = document.querySelector('.modal');
-const markBtns = document.querySelectorAll('.mark__btn');
-const questionBtns = document.querySelectorAll('.question__btn');
-const questionPoint = document.querySelectorAll('.question__item-point');
-const questionResultPoint = document.querySelector('.question__result-point');
-const questionResultMark = document.querySelector('.question__result-mark');
-// const modalQuestionText = document.querySelector('.modal__question-text');
-// const answerText = document.querySelector('.modal__answer-text');
-const answerBtn = document.querySelector('.modal__answer-btn');
-const modalBtnSPoint = document.querySelector('.modal__mark-list');
-const modalBtnPoint = document.querySelectorAll('.modal__mark-item');
-const btnStart = document.querySelector('.start');
-const btnChange = document.querySelector('.change');
-const btnGame = document.querySelector('.warning');
-const modalGame = document.querySelector('.modal__game');
-const modalGameQuestion = document.querySelector('.modal__game .modal__question-text');
-// const modalMark = document.querySelector('.modal__game .modal__mark');
-const modalGameAnswer = document.querySelector('.modal__game .modal__answer-text');
-const modalGameBtn = document.querySelectorAll('.modal__game-mark-item');
-const timerMin = document.querySelector('.timer__minutes');
-const timerSec = document.querySelector('.timer__seconds');
-const timerModMin = document.querySelector('.timer__modminutes');
-const timerModSec = document.querySelector('.timer__modseconds');
-
-let numberQuestionItem = '';
-let numberArr = [];
-let localDataMark = '';
-let dataMark = '';
-let setintervalID = '';
-let mark = '';
-let resultPoint = 0;
-// правила оценки
-
+const markBtns = document.querySelector('.mark__btn-list');
+const resMarkCantainer = document.querySelector('.res__mark-cantainer');
+const markBtnList = document.querySelector('.mark__btn-list');
+const markTitle = document.querySelector('.mark__title');
+const markRes = document.querySelector('.mark__res');
+const back = resMarkCantainer.querySelector('.mark__btn--back');
+// // правила оценки
 const arrMark = {
   dataFive: {
     "5": 5,
@@ -188,23 +159,19 @@ const arrMark = {
   },
   dataFour: {
     "5": 4,
-    "3": 3,
-    "0": 0,
+    "3": 4,
+    "0": 2,
   },
   dataThree: {
     "5": 3,
     "3": 3,
-    "0": 0,
+    "0": 2,
   },
 };
 
-const arrPoint = {
-  dataFive: ['dataFive', 'dataFive', 'dataFour', 'dataFour', 'dataThree', 'dataFive'],
-  dataFour: ['dataFour', 'dataFour', 'dataThree', 'dataThree', 'dataThree', 'dataFour'],
-  dataThree: ['dataThree', 'dataThree', 'dataThree', 'dataThree', 'dataThree', 'dataThree'],
-};
 
-//создание модального окна
+let resMark = 0;
+let mark = 0;
 
 const overlay = document.createElement('div');
 overlay.className = 'overlay';
@@ -277,94 +244,69 @@ overlay.append(modal);
 
 const overlayNew = overlay.cloneNode(true);
 
-// создание массива чисел
-
 function getRandomInRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
 const newRandomQuestion = (mark) => {
   let chislo = getRandomInRange(0, data[mark].length - 1);
-  if (!numberArr.includes(chislo)) newRandomQuestion(mark);
   return chislo;
-}
+};
 
-const questNumbersGeneretics = (markArr) => {
-  for (let i = 0; numberArr.length < 5;) {
-    let chislo = getRandomInRange(0, data[markArr[i]].length - 1);
-    if (!numberArr.includes(chislo)) {
-      i++;
-      numberArr.push(chislo)
-    }
+
+const editOverlayNew = () => {
+  const questionText = overlayNew.querySelector('.modal__question-text');
+  const answerText = overlayNew.querySelector('.modal__answer-text');
+  if (mark === 'dataFive') { mark = 'dataFour' }
+  else if (mark === 'dataFour') { mark = 'dataThree' }
+  let chislo = newRandomQuestion(mark);
+  questionText.textContent = data[mark][chislo].question;
+  answerText.textContent = data[mark][chislo].answer;
+};
+
+const opneNewModal = () => {
+  overlay.remove();
+  document.body.append(overlayNew);
+  editOverlayNew();
+};
+
+overlayNew.addEventListener('click', ({ target }) => {
+  const modalAnswerBtn = overlayNew.querySelector('.modal__answer-btn');
+  const modalAnswerText = overlayNew.querySelector('.modal__answer-text');
+
+  if (target.classList.contains('modal__close') ||
+  !target.closest('.modal')) {
+  overlayNew.remove();
+  modalAnswerText.style.opacity = '0';
   }
-  return numberArr;
-};
 
-//таймер 
+  if (target === modalAnswerBtn) {
+    modalAnswerText.style.opacity = '1';
+  }
 
-const timer = (minutes, seconds, elemMin, elemSec) => {
-  setintervalID = setInterval(() => {
-    if (seconds === 0) {
-      elemMin.textContent = `0`;
-      elemSec.textContent = `00`;
-      clearInterval(setintervalID);
-      questionItemMark.forEach(item => item.style.display = 'none');
-      if (modalGame.classList.contains('is-active')) {
-        modalMark.classList.remove('is-active');
-      }
-      return;
-    }
-    if (seconds % 60 === 0) {
-      minutes = minutes - 1;
-      elemMin.textContent = minutes;
-    }
-    seconds = seconds - 1;
-    if (seconds % 60 < 10) {
-      elemSec.textContent = `0${seconds % 60}`;
-    } else {
-      elemSec.textContent = seconds % 60;
-    }
-  }, 1000);
-};
-
-// задаем цвет выбора вопроса (определяем оценку)
-
-markBtns.forEach(item => {
-  item.addEventListener('click', () => {
-    let markArr = arrPoint[item.dataset.mark];
-    questNumbersGeneretics(markArr);
-    screens[1].classList.add('up');
-    questionItemMark.forEach((markBtn, index) => {
-      markBtn.classList.add(markArr[index]);
-      markBtn.setAttribute('data-mark', markArr[index])
-    });
-    btnGame.setAttribute('data-mark', item.dataset.mark)
-    btnGame.disabled = 'true';
-    btnGame.style.display = 'block';
-    if (item.classList.contains('mark__btn--three')) {
-      btnGame.style.display = 'none';
-    }
-  });
+  if (target.classList.contains('modal__mark-item')) {
+    const point = target.dataset.point;
+    modalAnswerText.style.opacity = '0';
+    overlayNew.remove();
+    markRes.textContent = arrMark[mark][point];
+    console.log(resMark);
+  }
 });
 
-// клик на вопросы
-
-questionItemMark.forEach(item => {
-  item.addEventListener('click', ({ target }) => {
-    if (!btnStart.disabled) return;
-    if (numberArr.length > 0) {
-      document.body.append(overlay);
-      mark = target.dataset.mark;
-      numberQuestionItem = +target.textContent - 1;
-      modalQuestionText.textContent = data[mark][numberArr[numberQuestionItem]].question;
-      modalAnswerText.textContent = data[mark][numberArr[numberQuestionItem]].answer;
-    }
-  });
+markBtns.addEventListener('click', ({
+  target
+}) => {
+  if (!target.classList.contains('mark__btn--back')) {
+    markBtnList.style.display = 'none';
+    resMarkCantainer.style.display = 'flex';
+    markTitle.textContent = 'Ваша оценка';
+    mark = target.dataset.mark;
+    let chislo = newRandomQuestion(mark);
+    modalQuestionText.textContent = data[mark][chislo].question;
+    modalAnswerText.textContent = data[mark][chislo].answer;
+    document.body.append(overlay);
+  }
 });
-
-const modalClicl = (target) => {
-
-}
 
 // close модального окна
 
@@ -375,199 +317,30 @@ overlay.addEventListener('click', ({ target }) => {
 
   if (target.classList.contains('modal__close') ||
     !target.closest('.modal')) {
+    modalAnswerText.style.opacity = '0';
     overlay.remove();
-    modalAnswerText.style.opacity = '0';
-    modalMarkList.style.display = 'flex';
   }
 
   if (target.matches('.modal__mark-item')) {
     const point = target.dataset.point;
-    if (point > 0) {
-      doMark(point)
-    } else if (mark !== 'dataThree') {
+    if (mark == 'dataThree') {
+      markRes.textContent = arrMark[mark][point];
+      overlay.remove();
+      console.log(resMark);
+    } else if (point > 0) {
+      markRes.textContent = arrMark[mark][point];
+      overlay.remove();
+      console.log(resMark);
+    } else {
+      modalAnswerText.style.opacity = '0';
       opneNewModal();
-    } else {
-      doMark(0);
     }
   }
 });
 
-overlayNew.addEventListener('click', ({ target }) => {
-  const modalAnswerBtn = overlayNew.querySelector('.modal__answer-btn');
-  const modalAnswerText = overlayNew.querySelector('.modal__answer-text');
-
-  if (target === modalAnswerBtn) {
-    modalAnswerText.style.opacity = '1';
-  }
-
-  if (target.classList.contains('modal__mark-item')) {
-    modalAnswerText.style.opacity = '0';
-    overlayNew.remove();
-  }
-
-  if (target.matches('.modal__mark-item')) {
-    const point = target.dataset.point;
-    questionPoint.forEach((item, index) => {
-      if (index === numberQuestionItem) {
-        const resMark = arrMark[mark][point];
-        item.textContent = resMark;
-        resultPoint += resMark;
-        questionResultPoint.textContent = resultPoint;
-        item.classList.add('question__item-point--active');
-      }
-    })
-    questionItemMark[numberQuestionItem].disabled = true;
-    questionItemMark[numberQuestionItem].classList.add('question__item--disabled');
-  }
-})
-
-// оценка в модальном окне)
-
-const doMark = (point) => {
-  questionPoint.forEach((item, index) => {
-    if (index === numberQuestionItem) {
-      const resMark = arrMark[mark][point];
-      item.textContent = resMark;
-      resultPoint += resMark;
-      questionResultPoint.textContent = resultPoint;
-      item.classList.add('question__item-point--active');
-    }
-  })
-  modalMarkList.style.display = 'none';
-  questionItemMark[numberQuestionItem].disabled = true;
-  questionItemMark[numberQuestionItem].classList.add('question__item--disabled');
-};
-
-const editOverlayNew = () => {
-  const questionText = overlayNew.querySelector('.modal__question-text');
-  const answerText = overlayNew.querySelector('.modal__answer-text');
-  if (mark === 'dataFive') { mark = 'dataFour' }
-  else if (mark === 'dataFour') { mark = 'dataThree' }
-  let chislo = newRandomQuestion(mark);
-  questionText.textContent = data[mark][chislo].question;
-  answerText.textContent = data[mark][chislo].answer;
-}
-
-const opneNewModal = () => {
-  overlay.remove()
-  document.body.append(overlayNew);
-  editOverlayNew();
-}
-
-
-
-// выставление оценки (кнопк в модальном окне) и выставление point
-
-// modalBtnPoint.forEach(item => {
-
-//   item.addEventListener('click', ({ target }) => {
-//     point = item.getAttribute('data-point');
-//     console.log(numberQuestionItem);
-//     
-//   });
-// });
-
-btnGame.addEventListener('click', () => {
-  let mark = btnGame.dataset.mark;
-  let chislo = newRandomQuestion(mark);
-  clearInterval(setintervalID);
-  questionItemMark.forEach(item => item.style.display = 'none');
-  const seconds = 60;
-  const minutes = 1;
-  timer(minutes, seconds, timerModMin, timerModSec);
-  modalGame.classList.add('is-active');
-  modalGameQuestion.textContent = data[mark][chislo].question;
-  modalGameAnswer.textContent = data[mark][chislo].answer;
+back.addEventListener('click', () => {
+  markBtnList.style.display = 'flex';
+  resMarkCantainer.style.display = 'none';
+  markTitle.textContent = 'Выберите оценку';
+  modalAnswerText.style.opacity = '0';
 });
-
-modalGame.addEventListener('click', ({target}) => {
-  console.log(target);
-  if (target.classList.contains('modal__answer-btn')) {
-    modalGameAnswer.style.opacity = '1.0';
-    modalMark.style.display = 'none';
-  }
-  if (target.classList.contains('modal__close')){
-    modalGame.classList.remove('is-active');
-    modalGameAnswer.style.opacity = '0';
-    clearInterval(setintervalID);
-    btnGame.disabled = true;
-  }
-})
-
-modalGameBtn.forEach(item => {
-  item.addEventListener('click', () => {
-    let mark = btnGame.dataset.mark;
-    if (item.textContent === 'Правильный') {
-      resultPoint += arrMark[mark]['5'];
-      questionResultPoint.textContent = resultPoint;
-    } else {
-      resultPoint += -arrMark[mark]['5'];
-      questionResultPoint.textContent = resultPoint;
-    }
-    clearInterval(setintervalID);
-    modalGame.classList.remove('.is-active');
-    btnGame.disabled = true;
-  })
-});
-
-// выставление итоговой оценки 
-
-questionResultMark.addEventListener('click', () => {
-  if (questionResultPoint.textContent !== '') {
-    if (resultPoint < 15) {
-      questionResultMark.textContent = '2';
-    }
-    if (resultPoint >= 15 && resultPoint < 17) {
-      questionResultMark.textContent = '3';
-    }
-    if (resultPoint >= 17 && resultPoint < 21) {
-      questionResultMark.textContent = '4';
-    }
-    if (resultPoint >= 21) {
-      questionResultMark.textContent = '5';
-    }
-  }
-});
-
-// Запуск приложения по кнопкам
-
-btnStart.addEventListener('click', () => {
-  btnStart.disabled = 'true';
-  btnStart.classList.add('question__btn--active');
-  btnGame.disabled = '';
-  const seconds = 180;
-  const minutes = Math.floor(seconds/60);
-  timer(minutes,seconds,timerMin,timerSec);
-});
-
-btnChange.addEventListener('click', () => {
-  numberArr = [];
-  btnStart.disabled = '';
-  btnStart.classList.remove('question__btn--active');
-  screens[1].classList.remove('up');
-  questionItemMark.forEach(item => {
-    item.className = 'question__item-text';
-  });
-  questionPoint.forEach(item => {
-    item.classList.remove('question__item-point--active');
-    item.textContent = '';
-  });
-  resultPoint = 0;
-  questionResultPoint.textContent = '';
-  questionResultMark.textContent = "оценка";
-  questionItemMark.forEach(item => {
-    item.disabled = '';
-    item.classList.remove('question__item--disabled');
-  });
-  questionItemMark.forEach(item => item.style.display = 'block');
-  timerMin.textContent = '03';
-  timerSec.textContent = '00';
-  timerModMin.textContent = '01';
-  timerModSec.textContent = '00';
-  clearInterval(setintervalID);
-  btnGame.disabled = '';
-  btnGame.style.display = 'block';
-  modalGameAnswer.style.opacity = '0';
-  modalMark.style.display = 'flex';
-});
-

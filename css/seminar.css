@@ -1,0 +1,43 @@
+.seminar__title {
+  font-size: 40px;
+  line-height: 46px;
+  margin-bottom: 10px;
+}
+
+.seminar__form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.seminar__label {
+  display: block;
+  font-size: 18px;
+  line-height: 22px;
+  padding: 7px;
+}
+
+.seminar__label:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.seminar__label input:checked+span {
+  color: #ff0000;
+}
+
+.seminar__btn {
+  font-size: 25px;
+  line-height: 28px;
+  font-weight: 600;
+  padding: 30px 20px;
+  background-color: #ff0000;
+  border-radius: 10px;
+  color: #ffffff;
+}
+
+.seminar__btn:disabled {
+  opacity: 0.6;
+}

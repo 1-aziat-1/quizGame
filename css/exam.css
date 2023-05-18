@@ -1,3 +1,24 @@
 @import 'mark.css';
+@import 'seminar.css';
 @import 'question.css';
 @import 'modal.css';
+
+.res__mark-cantainer {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.mark__res {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  color: #000;
+  margin-right: 50px;
+  text-align: center;
+  font-size: 50px;
+  color: #ff0000;
+}
